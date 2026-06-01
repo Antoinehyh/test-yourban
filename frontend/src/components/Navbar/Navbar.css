@@ -33,10 +33,3 @@
 .navbar__brand span {
   color: var(--color-accent);
 }
-
-.navbar__brand::before {
-  content: '◈';
-  font-size: .8rem;
-  color: var(--color-accent);
-  margin-right: .15rem;
-}
