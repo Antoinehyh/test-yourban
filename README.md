@@ -1,6 +1,6 @@
 # Box Office Explorer
 
-Application web full-stack pour explorer les données de box-office de 200 films (2022–2024).
+Application web full-stack pour explorer les données de box-office de 200 films et génération d'une description du film grâce à l'IA (2022–2024).
 
 ## Stack
 
@@ -28,10 +28,31 @@ Cette commande installe les dépendances racine (concurrently), serveur et clien
 
 ---
 
+## Configuration
+
+Crée ou modifie le fichier `server/.env` :
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Obtenir une clé gratuite sur [console.groq.com](https://console.groq.com). ou contactez-moi si vous avez besoin d'une clé.
+
+---
+
 ## Lancer le projet
 
+Ouvrir deux terminaux séparés :
+
+**Terminal 1 — Serveur (port 3001)**
 ```bash
-# Démarre le serveur (port 3001) et le client (port 3000) en parallèle
+cd server
+npm run dev
+```
+
+**Terminal 2 — Frontend (port 3000)**
+```bash
+cd frontend
 npm run dev
 ```
 
