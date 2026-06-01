@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import FilmDetailPage from './pages/FilmDetailPage';
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './pages/HomePage/HomePage';
+import FilmDetailPage from './pages/FilmDetailPage/FilmDetailPage';
 
 interface ErrorBoundaryState {
   hasError: boolean;

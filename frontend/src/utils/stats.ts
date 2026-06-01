@@ -11,8 +11,9 @@ export function computeGenreStats(films: Film[]): GenreStat[] {
   const map = new Map<string, { count: number; revenue: number; ratingSum: number; ratingCount: number }>();
 
   for (const film of films) {
-    const existing = map.get(film.genre) ?? { count: 0, revenue: 0, ratingSum: 0, ratingCount: 0 };
-    map.set(film.genre, {
+    const key = film.genre?.trim() || 'Non renseigné';
+    const existing = map.get(key) ?? { count: 0, revenue: 0, ratingSum: 0, ratingCount: 0 };
+    map.set(key, {
       count: existing.count + 1,
       revenue: existing.revenue + film.recettes_totales,
       ratingSum: existing.ratingSum + (film.note_presse ?? 0),
@@ -30,5 +31,9 @@ export function computeGenreStats(films: Film[]): GenreStat[] {
           ? Math.round((data.ratingSum / data.ratingCount) * 10) / 10
           : null,
     }))
-    .sort((a, b) => b.total_revenue - a.total_revenue);
+    .sort((a, b) => {
+      if (a.genre === 'Non renseigné') return 1;
+      if (b.genre === 'Non renseigné') return -1;
+      return b.total_revenue - a.total_revenue;
+    });
 }

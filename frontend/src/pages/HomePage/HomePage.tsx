@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFilms } from '../api/films';
-import { Film, SortKey } from '../types/film';
-import { formatRevenue } from '../utils/format';
-import FilmCard from '../components/FilmCard';
-import FilmFilters from '../components/FilmFilters';
-import StatsSection from '../components/StatsSection';
+import { getFilms } from '../../api/films';
+import { Film, SortKey } from '../../types/film';
+import { formatRevenue } from '../../utils/format';
+import FilmCard from '../../components/FilmCard/FilmCard';
+import FilmFilters from '../../components/FilmFilters/FilmFilters';
+import StatsSection from '../../components/StatsSection/StatsSection';
+import './HomePage.css';
 
 type Tab = 'films' | 'stats';
 
@@ -30,7 +31,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   const genres = useMemo(
-    () => Array.from(new Set(films.map((f) => f.genre))).sort(),
+    () => Array.from(new Set(films.map((f) => f.genre).filter((g): g is string => !!g?.trim()))).sort(),
     [films],
   );
 
@@ -59,7 +60,7 @@ const HomePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="loading-container">
+      <div className="loading-state">
         <div className="spinner" />
         <p>Chargement des films…</p>
       </div>
@@ -68,53 +69,49 @@ const HomePage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="error-container">
-        <div className="error-icon">⚠️</div>
-        <p>{error}</p>
+      <div className="error-state">
+        <div className="error-state__icon">⚠</div>
+        <p className="error-state__message">{error}</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="stats-banner">
-        <div className="container">
-          <div className="stats-banner-grid">
-            <div className="stats-banner-item">
-              <span className="value">{filteredFilms.length}</span>
-              <span className="label">
-                {selectedGenre ? `Films — ${selectedGenre}` : 'Films au total'}
-              </span>
-            </div>
-            <div className="stats-banner-item">
-              <span className="value">{formatRevenue(totalRevenues)}</span>
-              <span className="label">Recettes cumulées</span>
-            </div>
+      <div className="kpi-banner">
+        <div className="container kpi-banner__grid">
+          <div className="kpi-banner__item">
+            <span className="kpi-banner__value">{filteredFilms.length}</span>
+            <span className="kpi-banner__label">
+              {selectedGenre ? `Films — ${selectedGenre}` : 'Films au total'}
+            </span>
+          </div>
+          <div className="kpi-banner__item">
+            <span className="kpi-banner__value">{formatRevenue(totalRevenues)}</span>
+            <span className="kpi-banner__label">Recettes cumulées</span>
           </div>
         </div>
       </div>
 
       <div className="tabs-bar">
-        <div className="container">
-          <div className="tabs" role="tablist" aria-label="Navigation principale">
-            <button
-              role="tab"
-              aria-selected={activeTab === 'films'}
-              className={`tab-btn${activeTab === 'films' ? ' tab-btn--active' : ''}`}
-              onClick={() => setActiveTab('films')}
-            >
-              Films
-              <span className="tab-badge">{filteredFilms.length}</span>
-            </button>
-            <button
-              role="tab"
-              aria-selected={activeTab === 'stats'}
-              className={`tab-btn${activeTab === 'stats' ? ' tab-btn--active' : ''}`}
-              onClick={() => setActiveTab('stats')}
-            >
-              Statistiques
-            </button>
-          </div>
+        <div className="container tabs-bar__inner" role="tablist" aria-label="Navigation principale">
+          <button
+            role="tab"
+            aria-selected={activeTab === 'films'}
+            className="tab-btn"
+            onClick={() => setActiveTab('films')}
+          >
+            Films
+            <span className="tab-btn__badge">{filteredFilms.length}</span>
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'stats'}
+            className="tab-btn"
+            onClick={() => setActiveTab('stats')}
+          >
+            Statistiques
+          </button>
         </div>
       </div>
 
@@ -134,9 +131,9 @@ const HomePage: React.FC = () => {
           {activeTab === 'films' ? (
             filteredFilms.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-state-icon">🎬</div>
-                <p className="empty-state-title">Aucun film trouvé</p>
-                <p>Modifiez vos filtres pour voir des résultats.</p>
+                <div className="empty-state__icon">◎</div>
+                <p className="empty-state__title">Aucun film trouvé</p>
+                <p className="empty-state__sub">Modifiez vos filtres pour voir des résultats.</p>
               </div>
             ) : (
               <div className="films-grid">

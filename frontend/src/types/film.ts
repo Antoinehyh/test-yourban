@@ -2,7 +2,7 @@ export interface Film {
   id: number;
   titre: string;
   date_sortie: string;
-  genre: string;
+  genre: string | null;
   recettes_totales: number;
   nombre_entrees: number;
   pays_origine: string;

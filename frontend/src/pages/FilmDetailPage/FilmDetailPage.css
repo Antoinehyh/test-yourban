@@ -1,0 +1,106 @@
+.detail-page {
+  padding: 2rem 0 5rem;
+}
+
+/* ── Main card ───────────────────────────────────────────────── */
+.detail-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-md);
+}
+
+.detail-card__header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .625rem;
+}
+
+.detail-card__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.detail-card__subtitle {
+  font-size: .875rem;
+  color: var(--color-text-muted);
+}
+
+/* ── KPI row ─────────────────────────────────────────────────── */
+.detail-card__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-kpi {
+  padding: 1.5rem;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.detail-kpi:last-child { border-right: none; }
+
+.detail-kpi__value {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.detail-kpi__label {
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ── Metadata grid ───────────────────────────────────────────── */
+.detail-card__meta {
+  padding: 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+.detail-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.detail-meta-item__label {
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.detail-meta-item__value {
+  font-size: .9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .detail-card__header  { padding: 1.25rem; }
+  .detail-card__title   { font-size: 1.375rem; }
+  .detail-card__kpis    { grid-template-columns: 1fr; }
+  .detail-kpi           { border-right: none; border-bottom: 1px solid var(--color-border); }
+  .detail-kpi:last-child { border-bottom: none; }
+  .detail-card__meta    { padding: 1.25rem; }
+}
