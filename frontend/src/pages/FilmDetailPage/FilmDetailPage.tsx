@@ -5,6 +5,7 @@ import { Film } from '../../types/film';
 import { formatRevenue, formatDate, formatDuration, formatEntries } from '../../utils/format';
 import { getGenreStyle } from '../../utils/genres';
 import SimilarFilms from '../../components/SimilarFilms/SimilarFilms';
+import FilmSummary from '../../components/FilmSummary/FilmSummary';
 import './FilmDetailPage.css';
 
 const FilmDetailPage: React.FC = () => {
@@ -19,17 +20,21 @@ const FilmDetailPage: React.FC = () => {
   useEffect(() => {
     if (!id) return;
     const controller = new AbortController();
+    setLoading(true);
+    setFilm(null);
+    setError(null);
     Promise.all([getFilm(parseInt(id, 10), controller.signal), getFilms(controller.signal)])
       .then(([f, all]) => {
         setFilm(f);
         setAllFilms(all);
+        setLoading(false);
       })
       .catch((err: unknown) => {
         if (err instanceof Error && err.name === 'AbortError') return;
         console.error('[FilmDetailPage] Failed to load film:', err);
         setError('Film introuvable.');
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      });
     return () => controller.abort();
   }, [id]);
 
@@ -120,6 +125,8 @@ const FilmDetailPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <FilmSummary film={film} />
 
         <SimilarFilms film={film} allFilms={allFilms} />
       </div>
